@@ -24,7 +24,7 @@ def index(request):
         with open('script.py','r+') as file:
             data = file.read()
             ot = shell("python script.py "+'> out.txt',has_input=True)
-            ot.write(input_list[1])
+            ot.write(input_list[0])
 
             ott = ot.output()
 
