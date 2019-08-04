@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Online Python Compiler</title>
+  </head>
+  <body>
+    <h1>Online Python Compiler</h1>
+    
+ <form class="" action="." method="post">
+   {% csrf_token %}
+   <textarea name="compile" rows="8" cols="80"></textarea>
+   <textarea name="input" rows="8" cols="80"></textarea>
+   <input type="submit" value="Compile">
+ </form>
+
+ {{dic}}
+  </body>
+</html>
