@@ -1,2 +1,2 @@
 d = input('Enter the ')
-print(d)
+print(d)
