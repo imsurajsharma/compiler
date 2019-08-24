@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 import subprocess
 from shell import shell
 from os import system
@@ -8,15 +9,17 @@ from os import system
 def index(request):
 
     if request.method =='POST':
-        datas= request.POST['compile']
+        datas= request.POST.get('compile')
+        print("datas")
         user= request.POST['input']
+        print(user)
         suser = user.split('\n')
         print(suser)
 
 
         with open('input.txt','w+') as file:
             for l in suser:
-                file.writelines(l)
+                file.write(l + '\n')
 
 
 
@@ -31,7 +34,7 @@ def index(request):
         system('python script.py < input.txt > out.txt')
         with open('out.txt','r') as file:
             pyout = file.readlines()
-            
-        return render(request,'index.html',{'dic':pyout})
+
+        return JsonResponse({"data":pyout})
     else:
         return render(request,'index.html')

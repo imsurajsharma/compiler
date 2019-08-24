@@ -1,36 +1,126 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
-    <script
- charset="UTF-8"
- src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/go.min.js">
-   </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta charset="utf-8">
     <title>Online Python Compiler</title>
-    <style media="screen">
-     .cmd-col{
-       background-color: black;
-     }
-      .cmd{
-        font-family: 'Inconsolata', monospace;
-        color: white;
-
-      }
-    </style>
+<script src="https://pagecdn.io/lib/ace/1.4.5/ace.js" integrity="sha256-5Xkhn3k/1rbXB+Q/DX/2RuAtaB4dRRyQvMs83prFjpM=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" charset="utf-8"></script>
   </head>
-  <body>
-    <h1>Online Python Compiler</h1>
- <form class="" action="." method="post">
-   {% csrf_token %}
-   <textarea class="cmd-col cmd" name="compile" rows="8" cols="80"></textarea>
-   <textarea class="cmd"  name="input" rows="8" cols="80"></textarea>
-   <input type="submit" value="Compile">
- </form>
+<style>
 
- {% for out in dic %}
- {{out}}
- <br>
- {%  endfor %}
+html,body { margin:0; padding:0; height:100%; width:100%; overflow: hidden;}
+
+#editor {
+  height: 80%;
+  width:100%;
+  display:inline-block;
+}
+
+#container {
+height:50%;
+width:80%;
+white-space : nowrap;
+overflow : hidden;
+position:relative;
+}
+
+/* #iframe {
+height:100%;
+display:inline-block;
+width:50%;
+} */
+
+/* disable tag matching */
+.ace_editor .ace_marker-layer .ace_bracket { display: none }
+
+</style>
+
+    <h1>Online Python Compiler</h1>
+  <input class="btn btn-success" id="submitcode" type="submit" onclick="getvalue()" value="RUN">
+    <div id='container'>
+
+      <div id="editor">
+      </div>
+
+    </div>
+
+
+
+
+         <textarea class="cmd" id="input"  name="input" rows="6" cols="40" placeholder="INPUT"></textarea>
+         <textarea class="cmd" id="output"  name="input" rows="6" cols="60" placeholder="OUTPUT"></textarea>
+
+
+
+
+<script type="text/javascript">
+
+// var editor = ace.edit("editor");
+// var code = editor.getValue();
+// console.log(code);
+
+      var editor = ace.edit("editor");
+
+
+function getvalue(){
+  var code = editor.getValue();
+  var input = document.getElementById('input').value;
+    console.log(input);
+      $.post( "", { compile:code,input:input,  csrfmiddlewaretoken: '{{ csrf_token }}' })
+  .done(function( data ) {
+    console.log(data);
+
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        var val = data[key];
+
+        document.getElementById("output").innerHTML =val.join("");
+      }
+    }
+
+    //alert( "Data Loaded: " + data );
+  });
+
+}
+
+
+</script>
+
+
+
+<script type="text/javascript">
+
+function setupEditor()
+{
+window.editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.getSession().setMode("ace/mode/python");
+editor.setValue();
+editor.focus();
+
+
+editor.setOptions({
+  fontSize: "16pt",
+  showLineNumbers: false,
+  showGutter: false,
+  vScrollBarAlwaysVisible:true,
+  enableBasicAutocompletion: false, enableLiveAutocompletion: false
+});
+
+editor.setShowPrintMargin(false);
+editor.setBehavioursEnabled(false);
+}
+
+
+
+setupEditor();
+update();
+
+</script>
   </body>
 </html>
