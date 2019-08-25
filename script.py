@@ -1,4 +1,9 @@
-d = input('Enter the 1 ')
-print(d)
-e = input('Enter the 2 ')
-print(e)
+for Number in range (1, 100000000000):
+    count = 0
+    for i in range(2, (Number//2 + 1)):
+        if(Number % i == 0):
+            count = count + 1
+            break
+
+    if (count == 0 and Number != 1):
+        print(" %d" %Number, end = '  ')
