@@ -5,6 +5,13 @@ from shell import shell
 from os import system
 
 
+def test(request):
+    return render(request,'test.html')
+
+
+def embed(request):
+    return render(request,'embed.html')
+
 
 def index(request):
 

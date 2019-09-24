@@ -1,0 +1,210 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="utf-8">
+    <title>Online Python Compiler</title>
+<script src="https://pagecdn.io/lib/ace/1.4.5/ace.js" integrity="sha256-5Xkhn3k/1rbXB+Q/DX/2RuAtaB4dRRyQvMs83prFjpM=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static "/css/css.css" %}" type="text/css">
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" charset="utf-8"></script>
+  </head>
+
+<body>
+
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+   <!-- Brand -->
+   <a class="navbar-brand" href="#">Online IDE</a>
+
+   <!-- Links -->
+   <ul class="navbar-nav">
+     <li class="nav-item">
+         <a class="nav-link" href="#">Home</a>
+     </li>
+
+     <li class="nav-item">
+       <a class="nav-link" href="#">About Us</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link" href="#">Contact Us</a>
+     </li>
+
+
+     <!-- Dropdown -->
+     <li class="nav-item dropdown">
+       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+         More Languages
+       </a>
+       <div class="dropdown-menu">
+         <a class="dropdown-item" href="#">C++</a>
+         <a class="dropdown-item" href="#">C</a>
+         <a class="dropdown-item" href="#">Python 3.x</a>
+         <a class="dropdown-item" href="#">Java</a>
+         <a class="dropdown-item" href="#">JavaScript</a>
+         <a class="dropdown-item" href="#">Dart</a>
+         <a class="dropdown-item" href="#">HTML5</a>
+
+       </div>
+     </li>
+   </ul>
+ </nav>
+<!-- navbar end -->
+
+ <!-- this is editor container -->
+
+ <div class="wrapper">
+
+         <nav id="sidebar">
+             <!-- Sidebar Header -->
+             <div class="sidebar-header">
+                 <h3>Collapsible Sidebar</div>
+             </div>
+
+             <!-- Sidebar Links -->
+             <ul class="list-unstyled components">
+                 <li class="active"><a href="#">Home</a></li>
+                 <li><a href="#">About</a></li>
+                 <li><!-- Link with dropdown items -->
+                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                         <li><a href="#">Page</a></li>
+                         <li><a href="#">Page</a></li>
+                         <li><a href="#">Page</a></li>
+                     </ul>
+                 <li><a href="#">Portfolio</a></li>
+                 <li><a href="#">Contact</a></li>
+             </ul>
+         </nav>
+
+         <div id="content">
+             <button type="button" id="sidebarCollapse" class="navbar-btn">
+                 <span></span>
+                 <span></span>
+                 <span></span>
+             </button>
+         <div>
+
+ </div>
+    <div id='containers' class="row">
+
+      <div class="col-sm-6">
+
+         <div class="row">
+           <div class="col">
+             <input class="btn btn-success" id="submitcode" type="submit" onclick="getvalue()" value="RUN">
+           </div>
+            <div class="col">
+             <form action="index.html" method="post">
+               <label>
+                   <input type="checkbox" value="">Has Input
+               </label>
+             </form>
+           </div>
+
+         </div>
+
+
+          <div id='container'>
+
+            <div id="editor">
+            </div>
+
+          </div>
+          <br>
+      </div>
+
+      <div class="col-sm-6">
+        <h4 class="text-primary">Output</h4>
+            <div class="outputbox " name="input" id="output">
+
+            </div>
+            <br>
+      </div>
+
+    </div>
+
+<br>
+<br>
+
+
+
+<div class="">
+
+  <div class="container-fluid">
+    <h4 class="text-dark">Input</h4>
+     <textarea class="cmd" id="input"  name="input" rows="6" cols="40" placeholder="INPUT"></textarea>
+</div>
+
+
+
+
+<!--
+         <textarea class="cmd" id="input"  name="input" rows="6" cols="40" placeholder="INPUT"></textarea>
+         <textarea class="cmd" id="output"  name="input" rows="6" cols="60" placeholder="OUTPUT"></textarea> -->
+
+<!-- <script type="text/javascript" src="{% static "js/script.js" %}">
+
+</script> -->
+
+<script type="text/javascript">
+var editor = ace.edit("editor");
+
+
+function getvalue(){
+var code = editor.getValue();
+var input = document.getElementById('input').value;
+console.log(input);
+$.post( "", { compile:code,input:input,  csrfmiddlewaretoken: '{{ csrf_token }}' })
+.done(function( data ) {
+console.log(data);
+
+for (var key in data) {
+if (data.hasOwnProperty(key)) {
+  var val = data[key];
+
+document.getElementById("output").innerHTML =val.join("<br>")+'';
+
+}
+
+}
+
+});
+
+}
+
+
+
+function setupEditor()
+{
+window.editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.getSession().setMode("ace/mode/python");
+editor.setValue();
+editor.focus();
+
+
+editor.setOptions({
+fontSize: "16pt",
+showLineNumbers: false,
+showGutter: false,
+vScrollBarAlwaysVisible:true,
+enableBasicAutocompletion: false, enableLiveAutocompletion: false
+});
+
+editor.setShowPrintMargin(false);
+editor.setBehavioursEnabled(false);
+}
+
+
+
+setupEditor();
+update();
+
+</script>
+  </body>
+
+</html>
